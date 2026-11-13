@@ -81,6 +81,9 @@ msg() {
             pro_menu11) printf '%s' 'Deep TCP scan - top 1000 ports [PRO]' ;;
             pro_menu12) printf '%s' 'Safe NSE checks [PRO]' ;;
             pro_menu13) printf '%s' 'Export latest XML report to HTML [PRO]' ;;
+            pro_menu14) printf '%s' 'Pro dashboard - scan statistics' ;;
+            pro_menu15) printf '%s' 'Analyze latest scan exposure' ;;
+            pro_menu16) printf '%s' 'Compare latest two scans' ;;
             menu0) printf '%s' 'Exit' ;;
             lang_title) printf '%s' 'LANGUAGE / NGÔN NGỮ' ;;
             lang_vi) printf '%s' 'Vietnamese' ;;
@@ -148,6 +151,9 @@ msg() {
             pro_menu11) printf '%s' 'Quét TCP chuyên sâu - 1.000 cổng [PRO]' ;;
             pro_menu12) printf '%s' 'Kiểm tra an toàn NSE [PRO]' ;;
             pro_menu13) printf '%s' 'Xuất báo cáo XML mới nhất sang HTML [PRO]' ;;
+            pro_menu14) printf '%s' 'Pro Dashboard - thống kê quét' ;;
+            pro_menu15) printf '%s' 'Phân tích mức độ phơi lộ lần quét mới nhất' ;;
+            pro_menu16) printf '%s' 'So sánh hai lần quét gần nhất' ;;
             menu0) printf '%s' 'Thoát' ;;
             lang_title) printf '%s' 'NGÔN NGỮ / LANGUAGE' ;;
             lang_vi) printf '%s' 'Tiếng Việt' ;;
@@ -381,6 +387,9 @@ main() {
             11) pro_deep_scan ;;
             12) pro_safe_nse ;;
             13) pro_export_html ;;
+            14) pro_dashboard ;;
+            15) pro_analyze_latest ;;
+            16) pro_compare_latest ;;
             0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
             *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
         esac
