@@ -11,7 +11,7 @@ fi
 
 echo "[1/3] Cập nhật package và cài Nmap/Git..."
 pkg update -y
-pkg install -y git nmap
+pkg install -y git nmap iproute2
 
 echo "[2/3] Tải/cập nhật Nmap Toolkit..."
 if [[ -d "$INSTALL_DIR/.git" ]]; then
