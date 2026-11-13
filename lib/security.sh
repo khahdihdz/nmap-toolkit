@@ -33,7 +33,7 @@ security_http_headers() {
     for scheme in http https; do
         url="${scheme}://${TARGET}"
         printf '\n===== %s =====\n' "$url"
-        code="$(curl -k -sS -I -L --max-time 12 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null || true)"
+        code="$(curl -sS -I -L --max-time 12 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null || true)"
         if [[ -z "$code" || "$code" == "000" ]]; then
             printf '%s\n' "No HTTP response received."
             continue
