@@ -54,37 +54,37 @@ pro_export_html() {
 
 pro_dashboard() {
     banner
-    printf '%s\\n' "$(msg pro_menu14)"
+    printf '%s\n' "$(msg pro_menu14)"
     if ! command -v python >/dev/null 2>&1; then
-        printf '%bPython is required. Install with: pkg install python%b\\n' "$C_RED" "$C_RESET"
+        printf '%bPython is required. Install with: pkg install python%b\n' "$C_RED" "$C_RESET"
     elif ! python "$APP_DIR/lib/report_tools.py" dashboard "$REPORT_DIR"; then
-        printf '%bCould not build dashboard. Check XML reports.%b\\n' "$C_RED" "$C_RESET"
+        printf '%bCould not build dashboard. Check XML reports.%b\n' "$C_RED" "$C_RESET"
     fi
     pause
 }
 
 pro_analyze_latest() {
     banner
-    printf '%s\\n' "$(msg pro_menu15)"
+    printf '%s\n' "$(msg pro_menu15)"
     local xml
-    xml="$(find "$REPORT_DIR" -maxdepth 1 -type f -name '*.xml' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)"
+    xml="$(find "$REPORT_DIR" -maxdepth 1 -type f -name '*.xml' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)"
     if [[ -z "$xml" || ! -f "$xml" ]]; then
-        printf '%s\\n' "$(msg pro_html_none)"
+        printf '%s\n' "$(msg pro_html_none)"
     elif ! python "$APP_DIR/lib/report_tools.py" analyze "$xml"; then
-        printf '%bCould not analyze this XML report.%b\\n' "$C_RED" "$C_RESET"
+        printf '%bCould not analyze this XML report.%b\n' "$C_RED" "$C_RESET"
     fi
     pause
 }
 
 pro_compare_latest() {
     banner
-    printf '%s\\n' "$(msg pro_menu16)"
+    printf '%s\n' "$(msg pro_menu16)"
     local -a xml_files=()
-    mapfile -t xml_files < <(find "$REPORT_DIR" -maxdepth 1 -type f -name '*.xml' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n 2 | cut -d' ' -f2-)
+    mapfile -t xml_files < <(find "$REPORT_DIR" -maxdepth 1 -type f -name '*.xml' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 2 | cut -d' ' -f2-)
     if [[ "${#xml_files[@]}" -lt 2 ]]; then
-        printf '%s\\n' "Need at least two XML scan reports."
+        printf '%s\n' "Need at least two XML scan reports."
     elif ! python "$APP_DIR/lib/report_tools.py" compare "${xml_files[1]}" "${xml_files[0]}"; then
-        printf '%bCould not compare the selected reports.%b\\n' "$C_RED" "$C_RESET"
+        printf '%bCould not compare the selected reports.%b\n' "$C_RED" "$C_RESET"
     fi
     pause
 }
