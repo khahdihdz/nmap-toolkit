@@ -1,27 +1,30 @@
 # Nmap Toolkit
 
-A beginner-friendly Nmap menu toolkit for **Termux on Android**. Designed for non-root devices and uses TCP connect scans where raw-packet privileges are unavailable.
+**Nmap Toolkit** is a beginner-friendly, bilingual (Tiếng Việt / English) Nmap menu for **Termux on Android**. It is designed for non-root devices and uses TCP connect scans where raw-packet privileges are unavailable.
 
-## Features
+**Nmap Toolkit** là bộ công cụ Nmap có menu song ngữ (Tiếng Việt / English), dành cho người mới bắt đầu sử dụng **Termux trên Android**. Công cụ ưu tiên TCP Connect Scan để tương thích thiết bị không root.
 
-- Discover live hosts on a LAN subnet
-- Scan the 100 most common TCP ports
-- Scan a custom TCP port list or range
-- Detect service versions
-- Run a quick TCP scan
-- View and open saved scan reports
-- Save each scan in Nmap normal, XML, and grepable formats
-- Vietnamese interactive menu
+## Features / Tính năng
 
-## Requirements
+- Vietnamese and English menu; language preference is saved between launches.
+- Menu tiếng Việt và tiếng Anh; tự lưu ngôn ngữ đã chọn.
+- LAN host discovery / Tìm thiết bị trong mạng LAN (`-sn`)
+- Top 100 common TCP ports / Quét 100 cổng TCP phổ biến
+- Custom TCP port list or range / Quét cổng tùy chọn
+- Service and version detection / Nhận diện dịch vụ và phiên bản
+- Quick TCP scan / Quét TCP nhanh
+- View scan history / Xem lịch sử báo cáo
+- Normal, XML, and grepable reports / Lưu báo cáo Nmap dạng TXT, XML và GNMAP
 
-- Android with Termux installed (use a current Termux build)
-- Internet access for initial package installation
-- Nmap and Git (the installer installs these)
+## Requirements / Yêu cầu
 
-## Install
+- Android with a current Termux installation / Android có cài Termux phiên bản hiện hành
+- Internet for initial package installation / Có Internet khi cài đặt lần đầu
+- Nmap, Git and iproute2 are installed by the installer / Trình cài đặt tự cài Nmap, Git và iproute2
 
-Run in Termux:
+## Install / Cài đặt
+
+Run in Termux / Chạy trong Termux:
 
 ```bash
 pkg update -y
@@ -29,50 +32,56 @@ pkg install -y curl
 curl -fsSL https://raw.githubusercontent.com/khahdihdz/nmap-toolkit/main/install.sh | bash
 ```
 
-Then launch:
+Launch / Khởi chạy:
 
 ```bash
 nmaptool
 ```
 
-Alternatively, clone the repository and run `bash nmap-toolkit.sh`.
+Choose menu item **8** to switch language. The choice is saved in `~/.config/nmap-toolkit/language`.
 
-## Menu
+Chọn mục **8** để đổi ngôn ngữ. Tùy chọn được lưu tại `~/.config/nmap-toolkit/language`.
 
-1. LAN host discovery (`-sn`)
-2. Top 100 TCP ports (`-sT --top-ports 100`)
-3. Custom TCP ports
-4. Service/version detection (`-sT -sV`)
-5. Quick TCP scan (`-sT -F`)
-6. View saved reports
-7. Update Nmap
-0. Exit
+## Menu / Danh mục
 
-## Reports
+| Option | Tiếng Việt | English |
+|---|---|---|
+| 1 | Quét thiết bị LAN | LAN host discovery |
+| 2 | Quét 100 cổng TCP phổ biến | Top 100 TCP ports |
+| 3 | Quét cổng tùy chọn | Custom TCP ports |
+| 4 | Nhận diện dịch vụ/phiên bản | Service/version detection |
+| 5 | Quét nhanh | Quick scan |
+| 6 | Lịch sử báo cáo | Scan report history |
+| 7 | Cập nhật Nmap | Update Nmap |
+| 8 | Đổi ngôn ngữ | Change language |
+| 0 | Thoát | Exit |
 
-Reports are stored under:
+## Reports / Báo cáo
 
-```
-$HOME/nmap-toolkit/reports/
-```
+Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files.
 
-Every scan writes Nmap normal, XML, and grepable output. XML is useful for later processing and HTML report generation.
+Báo cáo được lưu trong `$HOME/nmap-toolkit/reports/`. Mỗi lần quét tạo ba định dạng: Nmap thường (`.nmap`), XML (`.xml`) và GNMAP (`.gnmap`).
 
-## Notes and safe use
+## Safe use / Sử dụng an toàn
 
 - Only scan networks and devices you own or have explicit permission to assess.
+- Chỉ quét mạng và thiết bị thuộc quyền sở hữu hoặc được cho phép kiểm tra.
 - On non-root Android/Termux, TCP connect scan (`-sT`) is the practical default. SYN scan and some OS-detection features require raw-packet privileges and may not work.
-- LAN discovery may be affected by Wi-Fi client isolation, VPNs, firewalls, or Android network restrictions.
-- The toolkit deliberately does not run aggressive scripts, vulnerability checks, stealth scans, or internet-wide scans.
+- Trên Android/Termux không root, TCP Connect Scan (`-sT`) là lựa chọn phù hợp. SYN Scan và một số tính năng nhận diện hệ điều hành cần quyền raw-packet nên có thể không hoạt động.
+- LAN discovery may be affected by Wi-Fi client isolation, VPNs, firewalls, or Android restrictions.
+- Quét LAN có thể bị ảnh hưởng bởi cô lập thiết bị Wi-Fi, VPN, tường lửa hoặc giới hạn Android.
 
-## Update / uninstall
+## Update / uninstall / Cập nhật và gỡ bỏ
 
-Run `nmaptool` and choose **7** to update Nmap packages. To update the toolkit itself, rerun the install command.
+Rerun the install command to update the toolkit. Choose menu option **7** to update Nmap.
 
-Remove the toolkit:
+Chạy lại lệnh cài đặt để cập nhật Toolkit. Chọn mục **7** để cập nhật Nmap.
+
+Remove / Gỡ bỏ:
 
 ```bash
 rm -rf "$HOME/nmap-toolkit"
+rm -rf "$HOME/.config/nmap-toolkit"
 rm -f "$PREFIX/bin/nmaptool"
 ```
 
