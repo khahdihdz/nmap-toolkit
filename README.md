@@ -14,6 +14,7 @@
 - Service and version detection / Nhận diện dịch vụ và phiên bản
 - Quick TCP scan / Quét TCP nhanh
 - View scan history / Xem lịch sử báo cáo
+- Delete all saved scan reports with confirmation / Xóa toàn bộ báo cáo đã lưu sau khi xác nhận
 - Normal, XML, and grepable reports / Lưu báo cáo Nmap dạng TXT, XML và GNMAP
 
 ## Requirements / Yêu cầu
@@ -54,13 +55,16 @@ Chọn mục **8** để đổi ngôn ngữ. Tùy chọn được lưu tại `~/
 | 6 | Lịch sử báo cáo | Scan report history |
 | 7 | Cập nhật Nmap | Update Nmap |
 | 8 | Đổi ngôn ngữ | Change language |
+| 9 | Xóa lịch sử báo cáo (có xác nhận) | Delete report history (confirmation required) |
 | 0 | Thoát | Exit |
 
 ## Reports / Báo cáo
 
 Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files.
 
-Báo cáo được lưu trong `$HOME/nmap-toolkit/reports/`. Mỗi lần quét tạo ba định dạng: Nmap thường (`.nmap`), XML (`.xml`) và GNMAP (`.gnmap`).
+Báo cáo được lưu trong `$HOME/nmap-toolkit/reports/`. Mỗi lần quét tạo ba định dạng: Nmap thường (`.nmap`), XML (`.xml`) và GNMAP (`.gnmap`). Chọn mục **9** để xóa toàn bộ báo cáo; Toolkit sẽ hỏi xác nhận trước khi xóa.
+
+Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files. Choose menu item **9** to delete all saved reports; the toolkit asks for confirmation first.
 
 ## Safe use / Sử dụng an toàn
 
