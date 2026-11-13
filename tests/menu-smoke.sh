@@ -19,7 +19,7 @@ chmod +x "$TMP_DIR/bin/nmap"
 printf '0\n' | env HOME="$TMP_DIR/home" PATH="$TMP_DIR/bin:$PATH" TERM=xterm bash "$ROOT_DIR/nmap-toolkit.sh" > "$TMP_DIR/menu.txt"
 
 for number in $(seq 1 20); do
-    if ! grep -Eq "^\${number}\\. " "$TMP_DIR/menu.txt"; then
+    if ! grep -Eq "^${number}\\. " "$TMP_DIR/menu.txt"; then
         echo "Menu item $number is missing from rendered menu." >&2
         cat "$TMP_DIR/menu.txt" >&2
         exit 1
