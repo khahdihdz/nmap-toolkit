@@ -88,6 +88,8 @@ pro_compare_latest() {
     fi
     pause
 
+}
+
 # Register Pro menu items; no core menu edits are needed when adding features.
 register_menu_item 10 pro_menu10 pro_auto_lan
 register_menu_item 11 pro_menu11 pro_deep_scan
@@ -96,4 +98,3 @@ register_menu_item 13 pro_menu13 pro_export_html
 register_menu_item 14 pro_menu14 pro_dashboard
 register_menu_item 15 pro_menu15 pro_analyze_latest
 register_menu_item 16 pro_menu16 pro_compare_latest
-}
