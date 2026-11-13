@@ -84,6 +84,14 @@ msg() {
             pro_menu14) printf '%s' 'Pro dashboard - scan statistics' ;;
             pro_menu15) printf '%s' 'Analyze latest scan exposure' ;;
             pro_menu16) printf '%s' 'Compare latest two scans' ;;
+            security_baseline_title) printf '%s' 'ADVANCED SECURITY EXPOSURE BASELINE' ;;
+            security_tls_title) printf '%s' 'TLS CERTIFICATE REVIEW' ;;
+            security_http_title) printf '%s' 'HTTP SECURITY HEADERS REVIEW' ;;
+            security_review_title) printf '%s' 'LATEST SECURITY EXPOSURE REVIEW' ;;
+            security_menu17) printf '%s' 'Security baseline - common sensitive ports' ;;
+            security_menu18) printf '%s' 'TLS certificate inspection (443/8443)' ;;
+            security_menu19) printf '%s' 'HTTP security headers review' ;;
+            security_menu20) printf '%s' 'Review latest scan for exposure indicators' ;;
             menu0) printf '%s' 'Exit' ;;
             lang_title) printf '%s' 'LANGUAGE / NGÔN NGỮ' ;;
             lang_vi) printf '%s' 'Vietnamese' ;;
@@ -154,6 +162,14 @@ msg() {
             pro_menu14) printf '%s' 'Pro Dashboard - thống kê quét' ;;
             pro_menu15) printf '%s' 'Phân tích mức độ phơi lộ lần quét mới nhất' ;;
             pro_menu16) printf '%s' 'So sánh hai lần quét gần nhất' ;;
+            security_baseline_title) printf '%s' 'ĐÁNH GIÁ BỀ MẶT TẤN CÔNG CƠ BẢN' ;;
+            security_tls_title) printf '%s' 'KIỂM TRA CHỨNG CHỈ TLS' ;;
+            security_http_title) printf '%s' 'KIỂM TRA HTTP SECURITY HEADERS' ;;
+            security_review_title) printf '%s' 'ĐÁNH GIÁ BẢO MẬT BÁO CÁO MỚI NHẤT' ;;
+            security_menu17) printf '%s' 'Rà soát cổng/dịch vụ nhạy cảm' ;;
+            security_menu18) printf '%s' 'Kiểm tra chứng chỉ TLS (443/8443)' ;;
+            security_menu19) printf '%s' 'Rà soát HTTP Security Headers' ;;
+            security_menu20) printf '%s' 'Phân tích dấu hiệu phơi lộ từ báo cáo mới nhất' ;;
             menu0) printf '%s' 'Thoát' ;;
             lang_title) printf '%s' 'NGÔN NGỮ / LANGUAGE' ;;
             lang_vi) printf '%s' 'Tiếng Việt' ;;
@@ -374,6 +390,10 @@ main() {
         printf '14. %s\n' "$(msg pro_menu14)"
         printf '15. %s\n' "$(msg pro_menu15)"
         printf '16. %s\n' "$(msg pro_menu16)"
+        printf '17. %s\n' "$(msg security_menu17)"
+        printf '18. %s\n' "$(msg security_menu18)"
+        printf '19. %s\n' "$(msg security_menu19)"
+        printf '20. %s\n' "$(msg security_menu20)"
         printf '0. %s\n\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
         case "$choice" in
@@ -393,6 +413,10 @@ main() {
             14) pro_dashboard ;;
             15) pro_analyze_latest ;;
             16) pro_compare_latest ;;
+            17) security_baseline_scan ;;
+            18) security_tls_check ;;
+            19) security_http_headers ;;
+            20) security_review_latest ;;
             0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
             *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
         esac
@@ -403,6 +427,10 @@ main() {
 if [[ -f "$APP_DIR/lib/pro.sh" ]]; then
     # shellcheck source=lib/pro.sh
     source "$APP_DIR/lib/pro.sh"
+fi
+if [[ -f "$APP_DIR/lib/security.sh" ]]; then
+    # shellcheck source=lib/security.sh
+    source "$APP_DIR/lib/security.sh"
 fi
 
 main "$@"
