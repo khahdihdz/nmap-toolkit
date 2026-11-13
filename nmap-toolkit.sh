@@ -371,6 +371,9 @@ main() {
         printf '11. %s\n' "$(msg pro_menu11)"
         printf '12. %s\n' "$(msg pro_menu12)"
         printf '13. %s\n' "$(msg pro_menu13)"
+        printf '14. %s\n' "$(msg pro_menu14)"
+        printf '15. %s\n' "$(msg pro_menu15)"
+        printf '16. %s\n' "$(msg pro_menu16)"
         printf '0. %s\n\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
         case "$choice" in
