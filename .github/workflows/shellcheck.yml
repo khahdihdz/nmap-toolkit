@@ -21,4 +21,4 @@ jobs:
       - name: Check scripts
         run: shellcheck -x nmap-toolkit.sh install.sh lib/pro.sh
       - name: Check Python helper
-        run: python -m py_compile lib/xml_to_html.py
+        run: python -m py_compile lib/xml_to_html.py lib/report_tools.py
