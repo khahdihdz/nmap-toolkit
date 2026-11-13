@@ -61,15 +61,18 @@ Chọn mục **8** để đổi ngôn ngữ. Tùy chọn được lưu tại `~/
 | 11 | Quét chuyên sâu 1.000 cổng | Deep scan, top 1,000 ports |
 | 12 | Kiểm tra NSE nhóm safe | Safe NSE checks |
 | 13 | Xuất XML sang HTML | Export XML to HTML |
+| 14 | Dashboard thống kê | Scan statistics dashboard |
+| 15 | Phân tích cổng/dịch vụ cần rà soát | Review exposed services and ports |
+| 16 | So sánh hai lần quét gần nhất | Compare latest two scans |
 | 0 | Thoát | Exit |
 
 ## Reports / Báo cáo
 
 Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files.
 
-Báo cáo được lưu trong `$HOME/nmap-toolkit/reports/`. Mỗi lần quét tạo ba định dạng: Nmap thường (`.nmap`), XML (`.xml`) và GNMAP (`.gnmap`). Chọn mục **9** để xóa toàn bộ báo cáo; Toolkit sẽ hỏi xác nhận trước khi xóa. Mục **13** chuyển báo cáo XML mới nhất thành HTML để mở bằng trình duyệt.
+Báo cáo được lưu trong `$HOME/nmap-toolkit/reports/`. Mỗi lần quét tạo ba định dạng: Nmap thường (`.nmap`), XML (`.xml`) và GNMAP (`.gnmap`). Chọn mục **9** để xóa toàn bộ báo cáo; Toolkit sẽ hỏi xác nhận trước khi xóa. Mục **13** chuyển báo cáo XML mới nhất thành HTML để mở bằng trình duyệt. Mục **14** tổng hợp lịch sử, thiết bị và cổng mở; mục **15** rà soát một số dịch vụ/cổng thường cần hạn chế; mục **16** so sánh hai báo cáo XML mới nhất.
 
-Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files. Choose menu item **9** to delete all saved reports; the toolkit asks for confirmation first. Option **13** converts the latest XML report to HTML for viewing in a browser.
+Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap normal (`.nmap`), XML (`.xml`), and grepable (`.gnmap`) files. Choose menu item **9** to delete all saved reports; the toolkit asks for confirmation first. Option **13** converts the latest XML report to HTML for viewing in a browser. Option **14** summarizes scan history, hosts, and open ports; option **15** reviews commonly exposed services; option **16** compares the two latest XML reports.
 
 ## Safe use / Sử dụng an toàn
 
