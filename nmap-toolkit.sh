@@ -68,6 +68,19 @@ msg() {
             del_confirm) printf '%s' 'Delete all saved .nmap, .xml and .gnmap reports? (y/N): ' ;;
             del_cancelled) printf '%s' 'Deletion cancelled.' ;;
             del_done) printf 'Deleted %s report files.' "$2" ;;
+            pro_auto_title) printf '%s' 'AUTO-DETECT LAN AND DISCOVER HOSTS' ;;
+            pro_auto_ok) printf 'Detected subnet: %s' "$2" ;;
+            pro_no_subnet) printf '%s' 'Could not detect an IPv4 subnet. Connect to Wi-Fi or enter a subnet using option 1.' ;;
+            pro_deep_title) printf '%s' 'PRO DEEP TCP SCAN - TOP 1000 PORTS' ;;
+            pro_nse_title) printf '%s' 'SAFE NSE SECURITY CHECK' ;;
+            pro_html_title) printf '%s' 'EXPORT HTML REPORT' ;;
+            pro_html_none) printf '%s' 'No XML scan report found.' ;;
+            pro_html_done) printf 'HTML report created: %s' "$2" ;;
+            pro_html_error) printf '%s' 'Could not generate HTML report. Check Python installation.' ;;
+            pro_menu10) printf '%s' 'Auto-detect LAN and discover hosts [PRO]' ;;
+            pro_menu11) printf '%s' 'Deep TCP scan - top 1000 ports [PRO]' ;;
+            pro_menu12) printf '%s' 'Safe NSE checks [PRO]' ;;
+            pro_menu13) printf '%s' 'Export latest XML report to HTML [PRO]' ;;
             menu0) printf '%s' 'Exit' ;;
             lang_title) printf '%s' 'LANGUAGE / NGÔN NGỮ' ;;
             lang_vi) printf '%s' 'Vietnamese' ;;
@@ -122,6 +135,19 @@ msg() {
             del_confirm) printf '%s' 'Xóa toàn bộ báo cáo .nmap, .xml và .gnmap đã lưu? (y/N): ' ;;
             del_cancelled) printf '%s' 'Đã hủy thao tác xóa.' ;;
             del_done) printf 'Đã xóa %s tệp báo cáo.' "$2" ;;
+            pro_auto_title) printf '%s' 'TỰ NHẬN DIỆN MẠNG LAN VÀ TÌM THIẾT BỊ' ;;
+            pro_auto_ok) printf 'Đã nhận diện subnet: %s' "$2" ;;
+            pro_no_subnet) printf '%s' 'Không nhận diện được subnet IPv4. Hãy kết nối Wi-Fi hoặc nhập subnet ở mục 1.' ;;
+            pro_deep_title) printf '%s' 'QUÉT TCP CHUYÊN SÂU - 1.000 CỔNG' ;;
+            pro_nse_title) printf '%s' 'KIỂM TRA AN TOÀN BẰNG NSE' ;;
+            pro_html_title) printf '%s' 'XUẤT BÁO CÁO HTML' ;;
+            pro_html_none) printf '%s' 'Chưa tìm thấy báo cáo XML.' ;;
+            pro_html_done) printf 'Đã tạo báo cáo HTML: %s' "$2" ;;
+            pro_html_error) printf '%s' 'Không thể tạo báo cáo HTML. Hãy kiểm tra Python đã được cài đặt.' ;;
+            pro_menu10) printf '%s' 'Tự nhận diện LAN và tìm thiết bị [PRO]' ;;
+            pro_menu11) printf '%s' 'Quét TCP chuyên sâu - 1.000 cổng [PRO]' ;;
+            pro_menu12) printf '%s' 'Kiểm tra an toàn NSE [PRO]' ;;
+            pro_menu13) printf '%s' 'Xuất báo cáo XML mới nhất sang HTML [PRO]' ;;
             menu0) printf '%s' 'Thoát' ;;
             lang_title) printf '%s' 'NGÔN NGỮ / LANGUAGE' ;;
             lang_vi) printf '%s' 'Tiếng Việt' ;;
@@ -335,6 +361,10 @@ main() {
         printf '7. %s\n' "$(msg menu7)"
         printf '8. %s\n' "$(msg menu8)"
         printf '9. %s\n' "$(msg menu9)"
+        printf '10. %s\n' "$(msg pro_menu10)"
+        printf '11. %s\n' "$(msg pro_menu11)"
+        printf '12. %s\n' "$(msg pro_menu12)"
+        printf '13. %s\n' "$(msg pro_menu13)"
         printf '0. %s\n\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
         case "$choice" in
@@ -347,10 +377,20 @@ main() {
             7) update_nmap ;;
             8) change_language ;;
             9) delete_reports ;;
+            10) pro_auto_lan ;;
+            11) pro_deep_scan ;;
+            12) pro_safe_nse ;;
+            13) pro_export_html ;;
             0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
             *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
         esac
     done
 }
+
+# Load optional Pro features after core functions are defined.
+if [[ -f "$APP_DIR/lib/pro.sh" ]]; then
+    # shellcheck source=lib/pro.sh
+    source "$APP_DIR/lib/pro.sh"
+fi
 
 main "$@"
