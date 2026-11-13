@@ -37,7 +37,7 @@ pro_export_html() {
     banner
     printf '%s\n' "$(msg pro_html_title)"
     local xml output
-    xml="$(ls -t "$REPORT_DIR"/*.xml 2>/dev/null | head -n 1)"
+    xml="$(find "$REPORT_DIR" -maxdepth 1 -type f -name '*.xml' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)"
     if [[ -z "$xml" || ! -f "$xml" ]]; then
         printf '%s\n' "$(msg pro_html_none)"
         pause
