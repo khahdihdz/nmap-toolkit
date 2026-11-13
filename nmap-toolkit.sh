@@ -371,57 +371,47 @@ change_language() {
 }
 
 main() {
-    require_nmap || { printf '%s\n' "$(msg install_failed)"; exit 1; }
+    require_nmap || { printf '%s\\n' "$(msg install_failed)"; exit 1; }
     while true; do
         banner
-        printf '1. %s\n' "$(msg menu1)"
-        printf '2. %s\n' "$(msg menu2)"
-        printf '3. %s\n' "$(msg menu3)"
-        printf '4. %s\n' "$(msg menu4)"
-        printf '5. %s\n' "$(msg menu5)"
-        printf '6. %s\n' "$(msg menu6)"
-        printf '7. %s\n' "$(msg menu7)"
-        printf '8. %s\n' "$(msg menu8)"
-        printf '9. %s\n' "$(msg menu9)"
-        printf '10. %s\n' "$(msg pro_menu10)"
-        printf '11. %s\n' "$(msg pro_menu11)"
-        printf '12. %s\n' "$(msg pro_menu12)"
-        printf '13. %s\n' "$(msg pro_menu13)"
-        printf '14. %s\n' "$(msg pro_menu14)"
-        printf '15. %s\n' "$(msg pro_menu15)"
-        printf '16. %s\n' "$(msg pro_menu16)"
-        printf '17. %s\n' "$(msg security_menu17)"
-        printf '18. %s\n' "$(msg security_menu18)"
-        printf '19. %s\n' "$(msg security_menu19)"
-        printf '20. %s\n' "$(msg security_menu20)"
-        printf '0. %s\n\n' "$(msg menu0)"
+        local number
+        while IFS= read -r number; do
+            [[ -n "$number" ]] || continue
+            printf '%s. %s\\n' "$number" "$(msg "${MENU_LABELS[$number]}")"
+        done < <(printf '%s\\n' "${!MENU_LABELS[@]}" | sort -n)
+        printf '0. %s\\n\\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
-        case "$choice" in
-            1) scan_lan ;;
-            2) scan_top ;;
-            3) scan_custom ;;
-            4) scan_services ;;
-            5) scan_quick ;;
-            6) show_reports ;;
-            7) update_nmap ;;
-            8) change_language ;;
-            9) delete_reports ;;
-            10) pro_auto_lan ;;
-            11) pro_deep_scan ;;
-            12) pro_safe_nse ;;
-            13) pro_export_html ;;
-            14) pro_dashboard ;;
-            15) pro_analyze_latest ;;
-            16) pro_compare_latest ;;
-            17) security_baseline_scan ;;
-            18) security_tls_check ;;
-            19) security_http_headers ;;
-            20) security_review_latest ;;
-            0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
-            *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
-        esac
+        if [[ "$choice" == "0" ]]; then
+            printf '%s\\n' "$(msg goodbye)"
+            exit 0
+        fi
+        if [[ -n "${MENU_ACTIONS[$choice]:-}" ]]; then
+            "${MENU_ACTIONS[$choice]}"
+        else
+            printf '%b%s%b\\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"
+            sleep 1
+        fi
     done
 }
+
+# Core menu registry. Optional modules register their own entries after sourcing.
+declare -Ag MENU_LABELS=() MENU_ACTIONS=()
+register_menu_item() {
+    local number="$1" label_key="$2" action="$3"
+    [[ "$number" =~ ^[1-9][0-9]*$ ]] || return 1
+    [[ -n "$label_key" && "$action" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] || return 1
+    MENU_LABELS["$number"]="$label_key"
+    MENU_ACTIONS["$number"]="$action"
+}
+register_menu_item 1 menu1 scan_lan
+register_menu_item 2 menu2 scan_top
+register_menu_item 3 menu3 scan_custom
+register_menu_item 4 menu4 scan_services
+register_menu_item 5 menu5 scan_quick
+register_menu_item 6 menu6 show_reports
+register_menu_item 7 menu7 update_nmap
+register_menu_item 8 menu8 change_language
+register_menu_item 9 menu9 delete_reports
 
 # Load optional Pro features after core functions are defined.
 if [[ -f "$APP_DIR/lib/pro.sh" ]]; then
