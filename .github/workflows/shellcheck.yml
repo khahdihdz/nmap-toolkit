@@ -20,5 +20,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: Check scripts
         run: shellcheck -x nmap-toolkit.sh install.sh lib/pro.sh lib/security.sh tests/menu-smoke.sh
-      - name: Verify every registered menu item is rendered\n        run: bash tests/menu-smoke.sh\n      - name: Check Python helper
+      - name: Verify every registered menu item is rendered
+        run: bash tests/menu-smoke.sh
+      - name: Check Python helper
         run: python -m py_compile lib/xml_to_html.py lib/report_tools.py
