@@ -15,7 +15,7 @@
 - Quick TCP scan / Quét TCP nhanh
 - View scan history / Xem lịch sử báo cáo
 - Delete all saved scan reports with confirmation / Xóa toàn bộ báo cáo đã lưu sau khi xác nhận
-- Pro: auto-detect LAN, 1,000-port TCP scan, safe NSE checks, mobile-friendly HTML reports / Pro: tự nhận diện LAN, quét 1.000 cổng TCP, NSE an toàn, báo cáo HTML
+- Pro: LAN discovery, deeper TCP scans, safe NSE, HTML reports, dashboard and scan comparison.\n- Security review: sensitive-port baseline, TLS certificate inspection, HTTP security-header review and exposure analysis.\n- Pro: tìm thiết bị LAN, quét TCP chuyên sâu, NSE an toàn, báo cáo HTML, dashboard và so sánh lần quét.\n- Rà soát bảo mật: cổng nhạy cảm, chứng chỉ TLS, HTTP security headers và dấu hiệu phơi lộ.
 - Normal, XML, and grepable reports / Lưu báo cáo Nmap dạng TXT, XML và GNMAP
 
 ## Requirements / Yêu cầu
@@ -63,7 +63,7 @@ Chọn mục **8** để đổi ngôn ngữ. Tùy chọn được lưu tại `~/
 | 13 | Xuất XML sang HTML | Export XML to HTML |
 | 14 | Dashboard thống kê | Scan statistics dashboard |
 | 15 | Phân tích cổng/dịch vụ cần rà soát | Review exposed services and ports |
-| 16 | So sánh hai lần quét gần nhất | Compare latest two scans |
+| 16 | So sánh hai lần quét gần nhất | Compare latest two scans |\n| 17 | Rà soát cổng/dịch vụ nhạy cảm | Sensitive-port security baseline |\n| 18 | Kiểm tra chứng chỉ TLS | TLS certificate inspection |\n| 19 | Rà soát HTTP Security Headers | HTTP security headers review |\n| 20 | Phân tích dấu hiệu phơi lộ | Latest exposure review |
 | 0 | Thoát | Exit |
 
 ## Reports / Báo cáo
@@ -77,7 +77,7 @@ Reports are stored in `$HOME/nmap-toolkit/reports/`. Each scan creates Nmap norm
 ## Safe use / Sử dụng an toàn
 
 - Only scan networks and devices you own or have explicit permission to assess.
-- Chỉ quét mạng và thiết bị thuộc quyền sở hữu hoặc được cho phép kiểm tra.
+- Chỉ quét mạng và thiết bị thuộc quyền sở hữu hoặc được cho phép kiểm tra.\n- Các mục 17–20 là kiểm tra cấu hình/phơi lộ không khai thác; kết quả cần được xác minh thủ công và không phải kết luận lỗ hổng.\n- TLS check chỉ đọc chứng chỉ được máy chủ trình bày; HTTP header review không bỏ qua xác thực chứng chỉ TLS.
 - On non-root Android/Termux, TCP connect scan (`-sT`) is the practical default. SYN scan and some OS-detection features require raw-packet privileges and may not work.
 - Trên Android/Termux không root, TCP Connect Scan (`-sT`) là lựa chọn phù hợp. SYN Scan và một số tính năng nhận diện hệ điều hành cần quyền raw-packet nên có thể không hoạt động.
 - LAN discovery may be affected by Wi-Fi client isolation, VPNs, firewalls, or Android restrictions.
