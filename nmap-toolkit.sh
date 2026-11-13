@@ -371,24 +371,24 @@ change_language() {
 }
 
 main() {
-    require_nmap || { printf '%s\\n' "$(msg install_failed)"; exit 1; }
+    require_nmap || { printf '%s\n' "$(msg install_failed)"; exit 1; }
     while true; do
         banner
         local number
         while IFS= read -r number; do
             [[ -n "$number" ]] || continue
-            printf '%s. %s\\n' "$number" "$(msg "${MENU_LABELS[$number]}")"
-        done < <(printf '%s\\n' "${!MENU_LABELS[@]}" | sort -n)
-        printf '0. %s\\n\\n' "$(msg menu0)"
+            printf '%s. %s\n' "$number" "$(msg "${MENU_LABELS[$number]}")"
+        done < <(printf '%s\n' "${!MENU_LABELS[@]}" | sort -n)
+        printf '0. %s\n\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
         if [[ "$choice" == "0" ]]; then
-            printf '%s\\n' "$(msg goodbye)"
+            printf '%s\n' "$(msg goodbye)"
             exit 0
         fi
         if [[ -n "${MENU_ACTIONS[$choice]:-}" ]]; then
             "${MENU_ACTIONS[$choice]}"
         else
-            printf '%b%s%b\\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"
+            printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"
             sleep 1
         fi
     done
