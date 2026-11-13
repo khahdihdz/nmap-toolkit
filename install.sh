@@ -11,7 +11,7 @@ fi
 
 echo "[1/3] Cập nhật package và cài Nmap/Git..."
 pkg update -y
-pkg install -y git nmap iproute2
+pkg install -y git nmap iproute2 python
 
 echo "[2/3] Tải/cập nhật Nmap Toolkit..."
 if [[ -d "$INSTALL_DIR/.git" ]]; then
@@ -27,6 +27,7 @@ fi
 
 echo "[3/3] Cấp quyền và tạo lệnh nmaptool..."
 chmod +x "$INSTALL_DIR/nmap-toolkit.sh" "$INSTALL_DIR/install.sh"
+mkdir -p "$INSTALL_DIR/reports"
 mkdir -p "$PREFIX/bin"
 cat > "$PREFIX/bin/nmaptool" <<'LAUNCHER'
 #!/data/data/com.termux/files/usr/bin/bash
