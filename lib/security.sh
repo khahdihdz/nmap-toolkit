@@ -58,4 +58,10 @@ security_review_latest() {
         printf '%s\n' "Could not review the latest report."
     fi
     pause
+
+# Register security menu items; future modules can self-register here.
+register_menu_item 17 security_menu17 security_baseline_scan
+register_menu_item 18 security_menu18 security_tls_check
+register_menu_item 19 security_menu19 security_http_headers
+register_menu_item 20 security_menu20 security_review_latest
 }
