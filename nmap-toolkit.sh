@@ -20,7 +20,7 @@ if [[ -f "$LANG_FILE" ]]; then
 fi
 [[ "$LANGUAGE" == "en" ]] || LANGUAGE="vi"
 
-tr() {
+msg() {
     local key="$1"
     if [[ "$LANGUAGE" == "en" ]]; then
         case "$key" in
@@ -124,7 +124,7 @@ tr() {
 }
 
 pause() {
-    printf '\n%s' "$(tr pause)"
+    printf '\n%s' "$(msg pause)"
     read -r _
 }
 
@@ -132,17 +132,17 @@ banner() {
     clear
     printf '%b\n' "$C_CYAN"
     printf '%s\n' '========================================'
-    printf '          %s\n' "$(tr menu_title)"
-    printf '          %s\n' "$(tr menu_subtitle)"
+    printf '          %s\n' "$(msg menu_title)"
+    printf '          %s\n' "$(msg menu_subtitle)"
     printf '%s\n' '========================================'
     printf '%b\n' "$C_RESET"
-    printf '%s: %s\n' "$(tr nmap)" "$(nmap --version 2>/dev/null | head -n 1)"
-    printf '%s: %s\n\n' "$(tr reports)" "$REPORT_DIR"
+    printf '%s: %s\n' "$(msg nmap)" "$(nmap --version 2>/dev/null | head -n 1)"
+    printf '%s: %s\n\n' "$(msg reports)" "$REPORT_DIR"
 }
 
 require_nmap() {
     if ! command -v nmap >/dev/null 2>&1; then
-        printf '%b%s%b\n' "$C_YELLOW" "$(tr install_missing)" "$C_RESET"
+        printf '%b%s%b\n' "$C_YELLOW" "$(msg install_missing)" "$C_RESET"
         pkg install -y nmap || return 1
     fi
 }
@@ -162,22 +162,22 @@ run_scan() {
     local stamp base status
     stamp="$(date +%Y%m%d_%H%M%S)"
     base="$REPORT_DIR/${stamp}_${label}"
-    printf '\n%b%s%b\n' "$C_YELLOW" "$(tr scanning)" "$C_RESET"
+    printf '\n%b%s%b\n' "$C_YELLOW" "$(msg scanning)" "$C_RESET"
     nmap "$@" -oA "$base"
     status=$?
     printf '\n'
     if [[ $status -eq 0 ]]; then
-        printf '%b%s%b\n%s.nmap\n%s.xml\n%s.gnmap\n' "$C_GREEN" "$(tr saved)" "$C_RESET" "$base" "$base" "$base"
+        printf '%b%s%b\n%s.nmap\n%s.xml\n%s.gnmap\n' "$C_GREEN" "$(msg saved)" "$C_RESET" "$base" "$base" "$base"
     else
-        printf '%b%s%b\n' "$C_RED" "$(tr scan_error "$status")" "$C_RESET"
+        printf '%b%s%b\n' "$C_RED" "$(msg scan_error "$status")" "$C_RESET"
     fi
 }
 
 ask_target() {
     local value
-    read -r -p "$(tr target_prompt)" value
+    read -r -p "$(msg target_prompt)" value
     if [[ -z "$value" ]] || ! valid_target "$value"; then
-        printf '%b%s%b\n' "$C_RED" "$(tr target_invalid)" "$C_RESET"
+        printf '%b%s%b\n' "$C_RED" "$(msg target_invalid)" "$C_RESET"
         return 1
     fi
     TARGET="$value"
@@ -185,13 +185,13 @@ ask_target() {
 
 scan_lan() {
     banner
-    printf '%s\n' "$(tr lan_title)"
-    printf '\n%s\n' "$(tr route_info)"
+    printf '%s\n' "$(msg lan_title)"
+    printf '\n%s\n' "$(msg route_info)"
     ip route 2>/dev/null || true
-    printf '\n%s\n' "$(tr subnet_hint)"
-    read -r -p "$(tr subnet_prompt)" subnet
+    printf '\n%s\n' "$(msg subnet_hint)"
+    read -r -p "$(msg subnet_prompt)" subnet
     if [[ ! "$subnet" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
-        printf '%b%s%b\n' "$C_RED" "$(tr subnet_invalid)" "$C_RESET"
+        printf '%b%s%b\n' "$C_RED" "$(msg subnet_invalid)" "$C_RESET"
         pause
         return
     fi
@@ -201,7 +201,7 @@ scan_lan() {
 
 scan_top() {
     banner
-    printf '%s\n' "$(tr top_title)"
+    printf '%s\n' "$(msg top_title)"
     ask_target || { pause; return; }
     run_scan "top100" -sT -sV --top-ports 100 "$TARGET"
     pause
@@ -209,11 +209,11 @@ scan_top() {
 
 scan_custom() {
     banner
-    printf '%s\n' "$(tr custom_title)"
+    printf '%s\n' "$(msg custom_title)"
     ask_target || { pause; return; }
-    read -r -p "$(tr ports_prompt)" ports
+    read -r -p "$(msg ports_prompt)" ports
     if ! valid_ports "$ports"; then
-        printf '%b%s%b\n' "$C_RED" "$(tr ports_invalid)" "$C_RESET"
+        printf '%b%s%b\n' "$C_RED" "$(msg ports_invalid)" "$C_RESET"
         pause
         return
     fi
@@ -223,7 +223,7 @@ scan_custom() {
 
 scan_services() {
     banner
-    printf '%s\n' "$(tr service_title)"
+    printf '%s\n' "$(msg service_title)"
     ask_target || { pause; return; }
     run_scan "services" -sT -sV --version-light "$TARGET"
     pause
@@ -231,7 +231,7 @@ scan_services() {
 
 scan_quick() {
     banner
-    printf '%s\n' "$(tr quick_title)"
+    printf '%s\n' "$(msg quick_title)"
     ask_target || { pause; return; }
     run_scan "quick" -sT -F -T3 "$TARGET"
     pause
@@ -239,20 +239,20 @@ scan_quick() {
 
 show_reports() {
     banner
-    printf '%s\n' "$(tr history_title)"
+    printf '%s\n' "$(msg history_title)"
     local files file
     files="$(find "$REPORT_DIR" -maxdepth 1 -type f \( -name '*.nmap' -o -name '*.xml' -o -name '*.gnmap' \) -print 2>/dev/null | sort -r)"
     if [[ -z "$files" ]]; then
-        printf '%s\n' "$(tr no_reports)"
+        printf '%s\n' "$(msg no_reports)"
         pause
         return
     fi
     printf '%s\n' "$files"
     printf '\n'
-    read -r -p "$(tr file_prompt)" file
+    read -r -p "$(msg file_prompt)" file
     if [[ -n "$file" ]]; then
         if [[ "$file" == */* || ! -f "$REPORT_DIR/$file" || "$file" != *.nmap ]]; then
-            printf '%b%s%b\n' "$C_RED" "$(tr file_invalid)" "$C_RESET"
+            printf '%b%s%b\n' "$C_RED" "$(msg file_invalid)" "$C_RESET"
         else
             cat "$REPORT_DIR/$file"
         fi
@@ -262,41 +262,41 @@ show_reports() {
 
 update_nmap() {
     banner
-    printf '%s\n' "$(tr update_title)"
+    printf '%s\n' "$(msg update_title)"
     pkg update -y && pkg upgrade nmap -y
     pause
 }
 
 change_language() {
     banner
-    printf '%s\n' "$(tr lang_title)"
-    printf '1. %s\n' "$(tr lang_vi)"
-    printf '2. %s\n' "$(tr lang_en)"
-    read -r -p "$(tr lang_prompt)" lang_choice
+    printf '%s\n' "$(msg lang_title)"
+    printf '1. %s\n' "$(msg lang_vi)"
+    printf '2. %s\n' "$(msg lang_en)"
+    read -r -p "$(msg lang_prompt)" lang_choice
     case "$lang_choice" in
         1) LANGUAGE="vi" ;;
         2) LANGUAGE="en" ;;
-        *) printf '%s\n' "$(tr invalid_choice)"; pause; return ;;
+        *) printf '%s\n' "$(msg invalid_choice)"; pause; return ;;
     esac
     printf '%s\n' "$LANGUAGE" > "$LANG_FILE"
-    printf '%s\n' "$(tr lang_saved)"
+    printf '%s\n' "$(msg lang_saved)"
     pause
 }
 
 main() {
-    require_nmap || { printf '%s\n' "$(tr install_failed)"; exit 1; }
+    require_nmap || { printf '%s\n' "$(msg install_failed)"; exit 1; }
     while true; do
         banner
-        printf '1. %s\n' "$(tr menu1)"
-        printf '2. %s\n' "$(tr menu2)"
-        printf '3. %s\n' "$(tr menu3)"
-        printf '4. %s\n' "$(tr menu4)"
-        printf '5. %s\n' "$(tr menu5)"
-        printf '6. %s\n' "$(tr menu6)"
-        printf '7. %s\n' "$(tr menu7)"
-        printf '8. %s\n' "$(tr menu8)"
-        printf '0. %s\n\n' "$(tr menu0)"
-        read -r -p "$(tr choose)" choice
+        printf '1. %s\n' "$(msg menu1)"
+        printf '2. %s\n' "$(msg menu2)"
+        printf '3. %s\n' "$(msg menu3)"
+        printf '4. %s\n' "$(msg menu4)"
+        printf '5. %s\n' "$(msg menu5)"
+        printf '6. %s\n' "$(msg menu6)"
+        printf '7. %s\n' "$(msg menu7)"
+        printf '8. %s\n' "$(msg menu8)"
+        printf '0. %s\n\n' "$(msg menu0)"
+        read -r -p "$(msg choose)" choice
         case "$choice" in
             1) scan_lan ;;
             2) scan_top ;;
@@ -306,8 +306,8 @@ main() {
             6) show_reports ;;
             7) update_nmap ;;
             8) change_language ;;
-            0) printf '%s\n' "$(tr goodbye)"; exit 0 ;;
-            *) printf '%b%s%b\n' "$C_RED" "$(tr invalid_choice)" "$C_RESET"; sleep 1 ;;
+            0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
+            *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
         esac
     done
 }
