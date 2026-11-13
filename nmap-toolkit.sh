@@ -63,6 +63,11 @@ msg() {
             menu6) printf '%s' 'View scan reports' ;;
             menu7) printf '%s' 'Update Nmap' ;;
             menu8) printf '%s' 'Change language / Ngôn ngữ' ;;
+            menu9) printf '%s' 'Delete report history' ;;
+            del_title) printf '%s' 'DELETE SCAN REPORT HISTORY' ;;
+            del_confirm) printf '%s' 'Delete all saved .nmap, .xml and .gnmap reports? (y/N): ' ;;
+            del_cancelled) printf '%s' 'Deletion cancelled.' ;;
+            del_done) printf 'Deleted %s report files.' "$2" ;;
             menu0) printf '%s' 'Exit' ;;
             lang_title) printf '%s' 'LANGUAGE / NGÔN NGỮ' ;;
             lang_vi) printf '%s' 'Vietnamese' ;;
@@ -112,6 +117,11 @@ msg() {
             menu6) printf '%s' 'Xem lịch sử báo cáo' ;;
             menu7) printf '%s' 'Cập nhật Nmap' ;;
             menu8) printf '%s' 'Đổi ngôn ngữ / Language' ;;
+            menu9) printf '%s' 'Xóa lịch sử báo cáo' ;;
+            del_title) printf '%s' 'XÓA LỊCH SỬ BÁO CÁO QUÉT' ;;
+            del_confirm) printf '%s' 'Xóa toàn bộ báo cáo .nmap, .xml và .gnmap đã lưu? (y/N): ' ;;
+            del_cancelled) printf '%s' 'Đã hủy thao tác xóa.' ;;
+            del_done) printf 'Đã xóa %s tệp báo cáo.' "$2" ;;
             menu0) printf '%s' 'Thoát' ;;
             lang_title) printf '%s' 'NGÔN NGỮ / LANGUAGE' ;;
             lang_vi) printf '%s' 'Tiếng Việt' ;;
@@ -260,6 +270,35 @@ show_reports() {
     pause
 }
 
+delete_reports() {
+    banner
+    printf '%s\\n' "$(msg del_title)"
+    local confirm count=0 file
+    local -a reports=()
+    while IFS= read -r -d '' file; do
+        reports+=("$file")
+    done < <(find "$REPORT_DIR" -maxdepth 1 -type f \\( -name '*.nmap' -o -name '*.xml' -o -name '*.gnmap' \\) -print0 2>/dev/null)
+
+    count=${#reports[@]}
+    if [[ "$count" -eq 0 ]]; then
+        printf '%s\\n' "$(msg no_reports)"
+        pause
+        return
+    fi
+
+    read -r -p "$(msg del_confirm)" confirm
+    case "$confirm" in
+        y|Y|yes|YES|Yes)
+            rm -f -- "${reports[@]}"
+            printf '%b%s%b\\n' "$C_GREEN" "$(msg del_done "$count")" "$C_RESET"
+            ;;
+        *)
+            printf '%s\\n' "$(msg del_cancelled)"
+            ;;
+    esac
+    pause
+}
+
 update_nmap() {
     banner
     printf '%s\n' "$(msg update_title)"
@@ -306,6 +345,7 @@ main() {
             6) show_reports ;;
             7) update_nmap ;;
             8) change_language ;;
+            9) delete_reports ;;
             0) printf '%s\n' "$(msg goodbye)"; exit 0 ;;
             *) printf '%b%s%b\n' "$C_RED" "$(msg invalid_choice)" "$C_RESET"; sleep 1 ;;
         esac
