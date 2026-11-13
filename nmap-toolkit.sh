@@ -272,16 +272,16 @@ show_reports() {
 
 delete_reports() {
     banner
-    printf '%s\\n' "$(msg del_title)"
+    printf '%s\n' "$(msg del_title)"
     local confirm count=0 file
     local -a reports=()
     while IFS= read -r -d '' file; do
         reports+=("$file")
-    done < <(find "$REPORT_DIR" -maxdepth 1 -type f \\( -name '*.nmap' -o -name '*.xml' -o -name '*.gnmap' \\) -print0 2>/dev/null)
+    done < <(find "$REPORT_DIR" -maxdepth 1 -type f \( -name '*.nmap' -o -name '*.xml' -o -name '*.gnmap' \) -print0 2>/dev/null)
 
     count=${#reports[@]}
     if [[ "$count" -eq 0 ]]; then
-        printf '%s\\n' "$(msg no_reports)"
+        printf '%s\n' "$(msg no_reports)"
         pause
         return
     fi
@@ -290,10 +290,10 @@ delete_reports() {
     case "$confirm" in
         y|Y|yes|YES|Yes)
             rm -f -- "${reports[@]}"
-            printf '%b%s%b\\n' "$C_GREEN" "$(msg del_done "$count")" "$C_RESET"
+            printf '%b%s%b\n' "$C_GREEN" "$(msg del_done "$count")" "$C_RESET"
             ;;
         *)
-            printf '%s\\n' "$(msg del_cancelled)"
+            printf '%s\n' "$(msg del_cancelled)"
             ;;
     esac
     pause
@@ -334,6 +334,7 @@ main() {
         printf '6. %s\n' "$(msg menu6)"
         printf '7. %s\n' "$(msg menu7)"
         printf '8. %s\n' "$(msg menu8)"
+        printf '9. %s\n' "$(msg menu9)"
         printf '0. %s\n\n' "$(msg menu0)"
         read -r -p "$(msg choose)" choice
         case "$choice" in
